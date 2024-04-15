@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { PetDto, type Pet } from '../entities/pet';
+import { PetDto, type Pet } from '../entities/pet.js';
 import { type PetRepository } from '../repositories/pet.repo.js';
 import createDebug from 'debug';
 import {

@@ -5,7 +5,7 @@ import { type PetDto } from '../entities/pet';
 
 jest.mock('fs/promises');
 
-describe('Given a instance of the class ArticlesFsRepo', () => {
+describe('Given a instance of the class PetRepository', () => {
   const repo = new PetRepository();
 
   test('Then it should be instance of the class', () => {
@@ -33,7 +33,7 @@ describe('Given a instance of the class ArticlesFsRepo', () => {
     test('Then it should throw an error', async () => {
       (readFile as jest.Mock).mockResolvedValue('[{"id": "1"}]');
       await expect(repo.readById('2')).rejects.toThrow(
-        new HttpError(404, 'Not Found', 'Article 2 not found')
+        new HttpError(404, 'Not Found', 'Pet 2 not found')
       );
     });
   });
@@ -43,13 +43,12 @@ describe('Given a instance of the class ArticlesFsRepo', () => {
       (readFile as jest.Mock).mockResolvedValue('[]');
       const data = {} as unknown as PetDto;
       const result = await repo.create(data);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       expect(result).toEqual({ id: expect.any(String) });
       expect(readFile).toHaveBeenCalled();
     });
   });
 
-  describe('When we use the method update', () => {
+  describe('When we use the method update with a valid id', () => {
     test('Then it should call readFile and writeFile', async () => {
       (readFile as jest.Mock).mockResolvedValue(
         JSON.stringify([
@@ -73,6 +72,70 @@ describe('Given a instance of the class ArticlesFsRepo', () => {
         isAdopted: true,
       });
       expect(readFile).toHaveBeenCalled();
+    });
+  });
+  describe('When we use the method update with an invalid id', () => {
+    test('Then it should throw an error', async () => {
+      (readFile as jest.Mock).mockResolvedValue(
+        JSON.stringify([
+          {
+            id: '1',
+            name: 'Buddy',
+            owner: 'Bob',
+            species: 'Dog',
+            isAdopted: false,
+          },
+        ])
+      );
+      const data = { isAdopted: true } as unknown as PetDto;
+      const id = '6';
+      await expect(repo.update(id, data)).rejects.toThrow(
+        new HttpError(404, 'Not Found', 'Pet 6 not found')
+      );
+    });
+  });
+  describe('When we use the method delete with a valid id', () => {
+    test('Then it should call readFile and writeFile', async () => {
+      (readFile as jest.Mock).mockResolvedValue(
+        JSON.stringify([
+          {
+            id: '1',
+            name: 'Buddy',
+            owner: 'Bob',
+            species: 'Dog',
+            isAdopted: false,
+          },
+        ])
+      );
+      const id = '1';
+      const result = await repo.delete(id);
+      expect(result).toEqual({
+        id: '1',
+        name: 'Buddy',
+        owner: 'Bob',
+        species: 'Dog',
+        isAdopted: false,
+      });
+      expect(readFile).toHaveBeenCalled();
+    });
+  });
+  describe('When we use the method delete with an invalid id', () => {
+    test('Then it should throw an error', async () => {
+      (readFile as jest.Mock).mockResolvedValue(
+        JSON.stringify([
+          {
+            id: '1',
+            name: 'Buddy',
+            owner: 'Bob',
+            species: 'Dog',
+            isAdopted: false,
+          },
+        ])
+      );
+      const id = '6';
+      await expect(repo.delete(id)).rejects.toThrow(
+        new HttpError(404, 'Not Found', 'Pet 6 not found')
+      );
     });
   });
 });

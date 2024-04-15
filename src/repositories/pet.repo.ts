@@ -3,18 +3,18 @@ import { PetDto, type Pet } from '../entities/pet';
 import { readFile, writeFile } from 'fs/promises';
 import { HttpError } from '../middleware/errors.middleware.js';
 
-const debug = createDebug('W6E:repository:user');
+const debug = createDebug('W7:repository:user');
 
 export class PetRepository {
   constructor() {}
 
   private async load(): Promise<Pet[]> {
-    const data = await readFile('articles.json', 'utf-8');
+    const data = await readFile('db.json', 'utf-8');
     return JSON.parse(data) as Pet[];
   }
 
   private async save(articles: Pet[]) {
-    await writeFile('articles.json', JSON.stringify(articles, null, 2));
+    await writeFile('db.json', JSON.stringify(articles, null, 2));
   }
 
   async readAll() {
@@ -25,8 +25,8 @@ export class PetRepository {
   async readById(id: string) {
     const pets = await this.load();
     const pet = pets.find((item) => item.id === id);
-    if (!pets) {
-      throw new HttpError(404, 'Not Found', `Article ${id} not found`);
+    if (!pet) {
+      throw new HttpError(404, 'Not Found', `Pet ${id} not found`);
     }
     return pet;
   }
