@@ -65,7 +65,6 @@ describe('Given a instance of the class ArticlesFsRepo', () => {
       const data = { isAdopted: true } as unknown as PetDto;
       const id = '1';
       const result = await repo.update(id, data);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       expect(result).toEqual({
         id: '1',
         name: 'Buddy',
