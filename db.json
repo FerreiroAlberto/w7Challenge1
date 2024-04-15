@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "name": "Buddy",
+    "owner": "Bob",
+    "species": "Dog",
+    "isAdopted": false
+  },
+  {
+    "id": "2",
+    "name": "Whiskers",
+    "species": "Cat",
+    "owner": "Bob",
+    "isAdopted": false
+  },
+  {
+    "id": "3",
+    "name": "Rocky",
+    "species": "Hamster",
+    "owner": "Charlie",
+    "isAdopted": true
+  },
+  {
+    "id": "4",
+    "name": "Max",
+    "species": "Dog",
+    "owner": "David",
+    "isAdopted": false
+  }
+]
