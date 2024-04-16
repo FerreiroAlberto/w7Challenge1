@@ -1,30 +1,37 @@
 [
   {
     "id": "1",
-    "name": "Buddy",
-    "owner": "Bob",
-    "species": "Dog",
-    "isAdopted": false
+    "name": "The Godfather",
+    "genre": "Crime",
+    "year": 1972,
+    "isOscarWinner": true
   },
   {
     "id": "2",
-    "name": "Whiskers",
-    "species": "Cat",
-    "owner": "Bob",
-    "isAdopted": false
+    "name": "The Shawshank Redemption",
+    "genre": "Drama",
+    "year": 1994,
+    "isOscarWinner": false
   },
   {
     "id": "3",
-    "name": "Rocky",
-    "species": "Hamster",
-    "owner": "Charlie",
-    "isAdopted": true
+    "name": "Titanic",
+    "genre": "Romance",
+    "year": 1997,
+    "isOscarWinner": true
   },
   {
     "id": "4",
-    "name": "Max",
-    "species": "Dog",
-    "owner": "David",
-    "isAdopted": false
+    "name": "The Lord of the Rings: The Return of the King",
+    "genre": "Fantasy",
+    "year": 2003,
+    "isOscarWinner": true
+  },
+  {
+    "id": "5",
+    "name": "Parasite",
+    "genre": "Thriller",
+    "year": 2019,
+    "isOscarWinner": true
   }
 ]

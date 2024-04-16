@@ -1,15 +1,15 @@
-import { PetRepository } from './pet.fs.repo';
 import { readFile } from 'fs/promises';
 import { HttpError } from '../middleware/errors.middleware';
-import { type PetDto } from '../entities/pet';
+import { MovieRepository } from './movie.fs.repo';
+import { MovieDto } from '../entities/movies';
 
 jest.mock('fs/promises');
 
 describe('Given a instance of the class PetRepository', () => {
-  const repo = new PetRepository();
+  const repo = new MovieRepository();
 
   test('Then it should be instance of the class', () => {
-    expect(repo).toBeInstanceOf(PetRepository);
+    expect(repo).toBeInstanceOf(MovieRepository);
   });
   describe('When we use the method readAll', () => {
     test('Then it should call readFile', async () => {
@@ -41,7 +41,7 @@ describe('Given a instance of the class PetRepository', () => {
   describe('When we use the method create', () => {
     test('Then it should call readFile', async () => {
       (readFile as jest.Mock).mockResolvedValue('[]');
-      const data = {} as unknown as PetDto;
+      const data = {} as unknown as MovieDto;
       const result = await repo.create(data);
       expect(result).toEqual({ id: expect.any(String) });
       expect(readFile).toHaveBeenCalled();
@@ -61,7 +61,7 @@ describe('Given a instance of the class PetRepository', () => {
           },
         ])
       );
-      const data = { isAdopted: true } as unknown as PetDto;
+      const data = { isAdopted: true } as unknown as MovieDto;
       const id = '1';
       const result = await repo.update(id, data);
       expect(result).toEqual({
@@ -87,7 +87,7 @@ describe('Given a instance of the class PetRepository', () => {
           },
         ])
       );
-      const data = { isAdopted: true } as unknown as PetDto;
+      const data = { isAdopted: true } as unknown as MovieDto;
       const id = '6';
       await expect(repo.update(id, data)).rejects.toThrow(
         new HttpError(404, 'Not Found', 'Pet 6 not found')

@@ -1,7 +1,7 @@
 import createDebug from 'debug';
 import { PetDto, type Pet } from '../entities/pet';
 import { HttpError } from '../middleware/errors.middleware.js';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const debug = createDebug('W7:repository:sql');
 
