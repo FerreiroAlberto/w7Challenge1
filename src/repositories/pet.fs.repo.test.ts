@@ -1,4 +1,4 @@
-import { PetRepository } from './pet.repo';
+import { PetRepository } from './pet.fs.repo';
 import { readFile } from 'fs/promises';
 import { HttpError } from '../middleware/errors.middleware';
 import { type PetDto } from '../entities/pet';

@@ -25,6 +25,7 @@ const config = {
     'interface',
     'tools',
     '_mock',
+    'tools',
     //   "\\\\node_modules\\\\"
   ],
   // Indicates which provider should be used to instrument code for coverage

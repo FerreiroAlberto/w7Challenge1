@@ -1,16 +1,16 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { PetDto, type Pet } from '../entities/pet.js';
-import { type PetRepository } from '../repositories/pet.repo.js';
 import createDebug from 'debug';
 import {
   petCreateDtoSchema,
   petUpdateDtoSchema,
 } from '../entities/pet.schema.js';
 import { HttpError } from '../middleware/errors.middleware.js';
+import { PetSqlRepository } from '../repositories/pet.sql.repo.js';
 const debug = createDebug('W7:articles:controller');
 
 export class PetController {
-  constructor(private readonly repo: PetRepository) {
+  constructor(private readonly repo: PetSqlRepository) {
     debug('Instantiated article controller');
   }
 

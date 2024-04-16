@@ -1,19 +1,25 @@
-import express from 'express';
+import express, { type Express } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import createDebug from 'debug';
 import { PetsRouter } from './routers/pet.router.js';
-import { PetRepository } from './repositories/pet.repo.js';
+
 import { PetController } from './controllers/pet.controller.js';
 import { ErrorsMiddleware } from './middleware/errors.middleware.js';
+import { type PrismaClient } from '@prisma/client';
+import { PetSqlRepository } from './repositories/pet.sql.repo.js';
 
 const debug = createDebug('W7:app');
 
 export const createApp = () => {
   const app = express();
+  return app;
+};
+
+export const startApp = (app: Express, prisma: PrismaClient) => {
   debug('Starting app');
 
-  const petRepo = new PetRepository();
+  const petRepo = new PetSqlRepository(prisma);
   const petController = new PetController(petRepo);
   const petRouter = new PetsRouter(petController);
   const errorMiddleware = new ErrorsMiddleware();
@@ -24,6 +30,4 @@ export const createApp = () => {
   app.use(express.static('public'));
   app.use('/pets', petRouter.router);
   app.use(errorMiddleware.handle.bind(errorMiddleware));
-
-  return app;
 };

@@ -2,10 +2,11 @@ import createDebug from 'debug';
 import { PetDto, type Pet } from '../entities/pet';
 import { readFile, writeFile } from 'fs/promises';
 import { HttpError } from '../middleware/errors.middleware.js';
+import { RepoPet } from './pet_repo';
 
 const debug = createDebug('W7:repository:user');
 
-export class PetRepository {
+export class PetRepository implements RepoPet {
   constructor() {}
 
   private async load(): Promise<Pet[]> {
@@ -42,7 +43,7 @@ export class PetRepository {
     return newPet;
   }
 
-  async update(inputId: string, data: Partial<Pet>) {
+  async update(inputId: string, data: Partial<PetDto>) {
     let pets = await this.load();
     const currentPet = pets.find((item) => item.id === inputId);
     if (!currentPet) {

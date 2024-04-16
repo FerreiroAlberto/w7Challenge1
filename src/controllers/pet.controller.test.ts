@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express';
-import { PetRepository } from '../repositories/pet.repo';
 import { PetController } from './pet.controller';
 import { HttpError } from '../middleware/errors.middleware';
+import { PetSqlRepository } from '../repositories/pet.sql.repo';
 
 describe('Given a instance of the class PetController', () => {
   const repo = {
@@ -10,7 +10,7 @@ describe('Given a instance of the class PetController', () => {
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
-  } as unknown as PetRepository;
+  } as unknown as PetSqlRepository;
 
   const req = {} as unknown as Request;
   const res = {
