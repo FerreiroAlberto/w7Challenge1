@@ -26,7 +26,7 @@ export class PetController {
   async getById(req: Request, res: Response, next: NextFunction) {
     const id = req.params.id;
     try {
-      const result = this.repo.readById(id);
+      const result = await this.repo.readById(id);
       res.json(result);
     } catch (error) {
       next(error);

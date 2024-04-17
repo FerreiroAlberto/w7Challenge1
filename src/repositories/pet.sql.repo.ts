@@ -2,6 +2,7 @@ import createDebug from 'debug';
 import { PetDto, type Pet } from '../entities/pet';
 import { HttpError } from '../middleware/errors.middleware.js';
 import { PrismaClient } from '@prisma/client';
+import { Repo } from './pet_repo';
 
 const debug = createDebug('W7:repository:sql');
 
@@ -13,7 +14,7 @@ const select = {
   id: true,
 };
 
-export class PetSqlRepository {
+export class PetSqlRepository implements Repo<Pet, PetDto> {
   constructor(private readonly prisma: PrismaClient) {}
   async readAll() {
     return this.prisma.pet.findMany({ distinct: ['createdAt', 'updatedAt'] });
