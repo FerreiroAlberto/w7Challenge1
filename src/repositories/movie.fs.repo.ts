@@ -37,6 +37,8 @@ export class MovieRepository {
     const newMovie: Movie = {
       id: crypto.randomUUID(),
       ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     let movies = await this.load();
     movies = [...movies, newMovie];

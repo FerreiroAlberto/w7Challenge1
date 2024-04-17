@@ -9,8 +9,8 @@ export const movieCreateDtoSchema = Joi.object<MovieDto>({
 });
 
 export const movieUpdateDtoSchema = Joi.object<MovieDto>({
-  name: Joi.string(),
-  genre: Joi.string(),
-  year: Joi.number(),
-  isOscarWinner: Joi.boolean(),
+  name: Joi.string().optional(),
+  genre: Joi.string().optional(),
+  year: Joi.number().optional(),
+  isOscarWinner: Joi.boolean().optional(),
 });
