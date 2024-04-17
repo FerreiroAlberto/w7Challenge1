@@ -26,7 +26,7 @@ export class MovieRepository {
     const movies = await this.load();
     const movie = movies.find((item) => item.id === id);
     if (!movie) {
-      throw new HttpError(404, 'Not Found', `Pet ${id} not found`);
+      throw new HttpError(404, 'Not Found', `Movie ${id} not found`);
     }
     return movie;
   }

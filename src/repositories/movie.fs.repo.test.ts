@@ -33,7 +33,7 @@ describe('Given a instance of the class PetRepository', () => {
     test('Then it should throw an error', async () => {
       (readFile as jest.Mock).mockResolvedValue('[{"id": "1"}]');
       await expect(repo.readById('2')).rejects.toThrow(
-        new HttpError(404, 'Not Found', 'Pet 2 not found')
+        new HttpError(404, 'Not Found', 'Movie 2 not found')
       );
     });
   });
@@ -90,7 +90,7 @@ describe('Given a instance of the class PetRepository', () => {
       const data = { isAdopted: true } as unknown as MovieDto;
       const id = '6';
       await expect(repo.update(id, data)).rejects.toThrow(
-        new HttpError(404, 'Not Found', 'Pet 6 not found')
+        new HttpError(404, 'Not Found', 'Movie 6 not found')
       );
     });
   });
@@ -134,7 +134,7 @@ describe('Given a instance of the class PetRepository', () => {
       );
       const id = '6';
       await expect(repo.delete(id)).rejects.toThrow(
-        new HttpError(404, 'Not Found', 'Pet 6 not found')
+        new HttpError(404, 'Not Found', 'Movie 6 not found')
       );
     });
   });
