@@ -11,4 +11,6 @@ export type PetDto = {
   species: string;
   owner: string;
   isAdopted: boolean;
+  ownerId: string;
 };
+export type PetUpdateDto = Partial<PetDto>;

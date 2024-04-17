@@ -1,8 +1,7 @@
 import createDebug from 'debug';
-import { PetDto, type Pet } from '../entities/pet';
+import { PetDto, PetUpdateDto, type Pet } from '../entities/pet';
 import { HttpError } from '../middleware/errors.middleware.js';
 import { PrismaClient } from '@prisma/client';
-import { Repo } from './pet_repo';
 
 const debug = createDebug('W7:pets:repository');
 
@@ -14,7 +13,7 @@ const select = {
   id: true,
 };
 
-export class PetSqlRepository implements Repo<Pet, PetDto> {
+export class PetSqlRepository {
   constructor(private readonly prisma: PrismaClient) {
     debug('Instantiated pets repository');
   }
@@ -31,15 +30,13 @@ export class PetSqlRepository implements Repo<Pet, PetDto> {
     }
     return pet;
   }
-  async create(data: PetDto) {
+  async create(newData: PetDto) {
     return this.prisma.pet.create({
-      data: {
-        ...data,
-      },
+      data: newData,
       select,
     });
   }
-  async update(inputId: string, data: Partial<PetDto>) {
+  async update(inputId: string, data: PetUpdateDto) {
     let pet: Pet;
     try {
       pet = await this.prisma.pet.update({

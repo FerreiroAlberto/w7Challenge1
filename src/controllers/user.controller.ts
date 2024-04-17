@@ -1,17 +1,17 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { PetDto, type Pet } from '../entities/pet.js';
 import createDebug from 'debug';
-import {
-  petCreateDtoSchema,
-  petUpdateDtoSchema,
-} from '../entities/pet.schema.js';
 import { HttpError } from '../middleware/errors.middleware.js';
-import { PetSqlRepository } from '../repositories/pet.sql.repo.js';
-const debug = createDebug('W7:pets:controller');
+import { UserSqlRepository } from '../repositories/user.sql.repo.js';
+import { UserCreateDto, UserUpdateDto } from '../entities/user.js';
+import {
+  userCreateDtoSchema,
+  userUpdateDtoSchema,
+} from '../entities/user.schema.js';
+const debug = createDebug('W7:users:controller');
 
-export class PetController {
-  constructor(private readonly repo: PetSqlRepository) {
-    debug('Instantiated pets controller');
+export class UserController {
+  constructor(private readonly repo: UserSqlRepository) {
+    debug('Instantiated users controller');
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {
@@ -34,9 +34,9 @@ export class PetController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-    const data = req.body as PetDto;
-    const { error, value }: { error: Error | undefined; value: PetDto } =
-      petCreateDtoSchema.validate(data, {
+    const data = req.body as UserCreateDto;
+    const { error, value }: { error: Error | undefined; value: UserCreateDto } =
+      userCreateDtoSchema.validate(data, {
         abortEarly: false,
       });
 
@@ -56,9 +56,9 @@ export class PetController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     const id = req.params.id;
-    const data = req.body as Pet;
+    const data = req.body as UserUpdateDto;
 
-    const { error } = petUpdateDtoSchema.validate(data, {
+    const { error } = userUpdateDtoSchema.validate(data, {
       abortEarly: false,
     });
 

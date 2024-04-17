@@ -11,6 +11,9 @@ import { PetSqlRepository } from './repositories/pet.sql.repo.js';
 import { MovieRepository } from './repositories/movie.fs.repo.js';
 import { MovieController } from './controllers/movie.controller.js';
 import { MoviesRouter } from './routers/movie.router.js';
+import { UserSqlRepository } from './repositories/user.sql.repo.js';
+import { UserController } from './controllers/user.controller.js';
+import { UsersRouter } from './routers/user.router.js';
 
 const debug = createDebug('W7:app');
 
@@ -23,11 +26,14 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   debug('Starting app');
 
   const petRepo = new PetSqlRepository(prisma);
-  const movieRepo = new MovieRepository();
+  // const movieRepo = new MovieRepository();
+  const userRepo = new UserSqlRepository(prisma);
   const petController = new PetController(petRepo);
-  const movieController = new MovieController(movieRepo);
+  // const movieController = new MovieController(movieRepo);
+  const userController = new UserController(userRepo);
   const petRouter = new PetsRouter(petController);
-  const movieRouter = new MoviesRouter(movieController);
+  // const movieRouter = new MoviesRouter(movieController);
+  const userRouter = new UsersRouter(userController);
   const errorMiddleware = new ErrorsMiddleware();
 
   app.use(express.json());
@@ -35,6 +41,7 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   app.use(cors());
   app.use(express.static('public'));
   app.use('/pets', petRouter.router);
-  app.use('/movies', movieRouter.router);
+  // app.use('/movies', movieRouter.router);
+  app.use('/users', userRouter.router);
   app.use(errorMiddleware.handle.bind(errorMiddleware));
 };
