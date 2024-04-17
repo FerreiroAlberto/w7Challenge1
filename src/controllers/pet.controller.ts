@@ -7,11 +7,11 @@ import {
 } from '../entities/pet.schema.js';
 import { HttpError } from '../middleware/errors.middleware.js';
 import { PetSqlRepository } from '../repositories/pet.sql.repo.js';
-const debug = createDebug('W7:articles:controller');
+const debug = createDebug('W7:pets:controller');
 
 export class PetController {
   constructor(private readonly repo: PetSqlRepository) {
-    debug('Instantiated article controller');
+    debug('Instantiated pets controller');
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {

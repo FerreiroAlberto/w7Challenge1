@@ -3,6 +3,7 @@ export type Movie = {
   name: string;
   genre: string;
   year: number;
+  pet?: string;
   isOscarWinner: boolean;
 };
 

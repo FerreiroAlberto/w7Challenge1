@@ -2,7 +2,7 @@ import { Router as router } from 'express';
 import { PetController } from '../controllers/pet.controller.js';
 import createDebug from 'debug';
 
-const debug = createDebug('W7:articles:router');
+const debug = createDebug('W7:pets:router');
 
 export class PetsRouter {
   router = router();

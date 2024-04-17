@@ -3,10 +3,12 @@ import { readFile, writeFile } from 'fs/promises';
 import { HttpError } from '../middleware/errors.middleware.js';
 import { Movie, MovieDto } from '../entities/movies.js';
 
-const debug = createDebug('W7:repository:user');
+const debug = createDebug('W7:movies:repository');
 
 export class MovieRepository {
-  constructor() {}
+  constructor() {
+    debug('Instantiated movie repo');
+  }
 
   private async load(): Promise<Movie[]> {
     const data = await readFile('db.json', 'utf-8');
@@ -36,8 +38,8 @@ export class MovieRepository {
       id: crypto.randomUUID(),
       ...data,
     };
-    let pets = await this.load();
-    pets = [...pets, newMovie];
+    let movies = await this.load();
+    movies = [...movies, newMovie];
 
     return newMovie;
   }

@@ -4,6 +4,7 @@
     "name": "The Godfather",
     "genre": "Crime",
     "year": 1972,
+    "pet": "none",
     "isOscarWinner": true
   },
   {
@@ -11,6 +12,7 @@
     "name": "The Shawshank Redemption",
     "genre": "Drama",
     "year": 1994,
+    "pet": "none",
     "isOscarWinner": false
   },
   {
@@ -18,6 +20,7 @@
     "name": "Titanic",
     "genre": "Romance",
     "year": 1997,
+    "pet": "none",
     "isOscarWinner": true
   },
   {
@@ -25,6 +28,7 @@
     "name": "The Lord of the Rings: The Return of the King",
     "genre": "Fantasy",
     "year": 2003,
+    "pet": "none",
     "isOscarWinner": true
   },
   {
@@ -32,6 +36,7 @@
     "name": "Parasite",
     "genre": "Thriller",
     "year": 2019,
+    "pet": "none",
     "isOscarWinner": true
   }
 ]

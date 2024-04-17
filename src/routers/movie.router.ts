@@ -2,7 +2,7 @@ import { Router as router } from 'express';
 import createDebug from 'debug';
 import { MovieController } from '../controllers/movie.controller.js';
 
-const debug = createDebug('W7:articles:router');
+const debug = createDebug('W7:movies:router');
 
 export class MoviesRouter {
   router = router();

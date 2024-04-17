@@ -23,12 +23,12 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   debug('Starting app');
 
   const petRepo = new PetSqlRepository(prisma);
-  const petController = new PetController(petRepo);
-  const petRouter = new PetsRouter(petController);
-  const errorMiddleware = new ErrorsMiddleware();
   const movieRepo = new MovieRepository();
+  const petController = new PetController(petRepo);
   const movieController = new MovieController(movieRepo);
+  const petRouter = new PetsRouter(petController);
   const movieRouter = new MoviesRouter(movieController);
+  const errorMiddleware = new ErrorsMiddleware();
 
   app.use(express.json());
   app.use(morgan('dev'));
