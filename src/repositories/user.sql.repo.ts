@@ -8,6 +8,7 @@ const debug = createDebug('W7:users:repository');
 const select = {
   id: true,
   name: true,
+  email: true,
   password: true,
   birthDate: true,
   role: true,

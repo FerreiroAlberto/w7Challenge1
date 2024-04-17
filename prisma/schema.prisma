@@ -37,6 +37,7 @@ model Movie  {
 model User {
   id        String @id @default(uuid())
   name      String @unique
+  email     String   @unique
   password  String
   birthDate DateTime
   role      Role      @default(user)
