@@ -9,6 +9,7 @@ const select = {
   name: true,
   species: true,
   owner: true,
+  careGiver: { select: { name: true, birthDate: true } },
   isAdopted: true,
   id: true,
 };
@@ -18,7 +19,8 @@ export class PetSqlRepository {
     debug('Instantiated pets repository');
   }
   async readAll() {
-    return this.prisma.pet.findMany({ distinct: ['createdAt', 'updatedAt'] });
+    const pets = await this.prisma.pet.findMany({ select });
+    return pets;
   }
   async readById(inputId: string) {
     const pet = await this.prisma.pet.findUnique({
@@ -32,7 +34,7 @@ export class PetSqlRepository {
   }
   async create(newData: PetDto) {
     return this.prisma.pet.create({
-      data: newData,
+      data: { ...newData },
       select,
     });
   }
@@ -51,6 +53,13 @@ export class PetSqlRepository {
   }
 
   async delete(inputId: string) {
+    const pet = await this.prisma.pet.findUnique({
+      where: { id: inputId },
+      select,
+    });
+    if (!pet) {
+      throw new HttpError(404, 'Not Found', `Pet ${inputId} not found`);
+    }
     return this.prisma.pet.delete({ where: { id: inputId }, select });
   }
 }

@@ -8,10 +8,10 @@ const debug = createDebug('W7:users:repository');
 const select = {
   id: true,
   name: true,
-  email: true,
   password: true,
   birthDate: true,
   role: true,
+  pets: { select: { name: true, species: true } },
 };
 
 export class UserSqlRepository {
@@ -19,7 +19,7 @@ export class UserSqlRepository {
     debug('Instantiated user repository');
   }
   async readAll() {
-    return this.prisma.user.findMany({ distinct: ['createdAt', 'updatedAt'] });
+    return this.prisma.user.findMany({ select });
   }
   async readById(inputId: string) {
     const pet = await this.prisma.user.findUnique({
@@ -32,12 +32,14 @@ export class UserSqlRepository {
     return pet;
   }
   async create(data: UserCreateDto) {
-    return this.prisma.user.create({
+    const newUser = this.prisma.user.create({
       data: {
+        role: 'user',
         ...data,
       },
       select,
     });
+    return newUser;
   }
   async update(inputId: string, data: UserUpdateDto) {
     let user: User;
@@ -54,6 +56,13 @@ export class UserSqlRepository {
   }
 
   async delete(inputId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: inputId },
+      select,
+    });
+    if (!user) {
+      throw new HttpError(404, 'Not Found', `User ${inputId} not found`);
+    }
     return this.prisma.user.delete({ where: { id: inputId }, select });
   }
 }

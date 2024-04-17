@@ -6,6 +6,7 @@ export const petCreateDtoSchema = Joi.object<PetDto>({
   species: Joi.string().required(),
   owner: Joi.string().default(''),
   isAdopted: Joi.boolean().default(false),
+  ownerId: Joi.string().default(''),
 });
 
 export const petUpdateDtoSchema = Joi.object<PetDto>({
