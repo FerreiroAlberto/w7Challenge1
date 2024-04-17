@@ -17,7 +17,6 @@ model Pet  {
   id String @id @default(uuid())
   name String 
   species String
-  owner String
   careGiver User @relation(fields: [ownerId], references: [id])
   ownerId String
   isAdopted Boolean @default(false)
@@ -52,3 +51,5 @@ enum Role {
   admin
   guest
 }
+
+

@@ -8,9 +8,10 @@ const debug = createDebug('W7:pets:repository');
 const select = {
   name: true,
   species: true,
-  owner: true,
   careGiver: { select: { name: true, birthDate: true } },
   isAdopted: true,
+  createdAt: true,
+  updatedAt: true,
   id: true,
 };
 
@@ -34,7 +35,12 @@ export class PetSqlRepository {
   }
   async create(newData: PetDto) {
     return this.prisma.pet.create({
-      data: { ...newData },
+      data: {
+        name: newData.name,
+        species: newData.species,
+        ownerId: newData.ownerId,
+        isAdopted: newData.isAdopted,
+      },
       select,
     });
   }
