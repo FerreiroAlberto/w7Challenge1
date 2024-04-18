@@ -3,7 +3,6 @@ import morgan from 'morgan';
 import cors from 'cors';
 import createDebug from 'debug';
 import { PetsRouter } from './routers/pet.router.js';
-
 import { PetController } from './controllers/pet.controller.js';
 import { ErrorsMiddleware } from './middleware/errors.middleware.js';
 import { type PrismaClient } from '@prisma/client';
@@ -14,6 +13,7 @@ import { MoviesRouter } from './routers/movie.router.js';
 import { UserSqlRepository } from './repositories/user.sql.repo.js';
 import { UserController } from './controllers/user.controller.js';
 import { UsersRouter } from './routers/user.router.js';
+import { AuthInterceptor } from './middleware/auth.interceptor.js';
 
 const debug = createDebug('W7:app');
 
@@ -25,15 +25,16 @@ export const createApp = () => {
 export const startApp = (app: Express, prisma: PrismaClient) => {
   debug('Starting app');
 
+  const authInterceptor = new AuthInterceptor();
   const petRepo = new PetSqlRepository(prisma);
   // const movieRepo = new MovieRepository();
   const userRepo = new UserSqlRepository(prisma);
   const petController = new PetController(petRepo);
   // const movieController = new MovieController(movieRepo);
   const userController = new UserController(userRepo);
-  const petRouter = new PetsRouter(petController);
+  const petRouter = new PetsRouter(petController, authInterceptor);
   // const movieRouter = new MoviesRouter(movieController);
-  const userRouter = new UsersRouter(userController);
+  const userRouter = new UsersRouter(userController, authInterceptor);
   const errorMiddleware = new ErrorsMiddleware();
 
   app.use(express.json());

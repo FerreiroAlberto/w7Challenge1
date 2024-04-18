@@ -19,6 +19,36 @@ export class UserSqlRepository {
   constructor(private readonly prisma: PrismaClient) {
     debug('Instantiated user repository');
   }
+  async findUser(key: string, value: unknown) {
+    return this.prisma.user.findMany({
+      where: {
+        [key]: value,
+      },
+      select,
+    });
+  }
+
+  async searchForLogin(key: 'email' | 'name', value: string) {
+    if (!['email', 'name'].includes(key)) {
+      throw new HttpError(404, 'Not found', 'Invalid parameters');
+    }
+    const userData = await this.prisma.user.findFirst({
+      where: { [key]: value },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        password: true,
+      },
+    });
+
+    if (!userData) {
+      throw new HttpError(404, 'Not Found', `Invalid ${key} or password`);
+    }
+    return userData;
+  }
+
   async readAll() {
     return this.prisma.user.findMany({ select });
   }

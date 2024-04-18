@@ -7,6 +7,7 @@ import {
   userCreateDtoSchema,
   userUpdateDtoSchema,
 } from '../entities/user.schema.js';
+import { Auth } from '../services/auth.services.js';
 const debug = createDebug('W7:users:controller');
 
 export class UserController {
@@ -18,6 +19,42 @@ export class UserController {
     try {
       const result = await this.repo.readAll();
       res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async login(req: Request, res: Response, next: NextFunction) {
+    const { email, name, password } = req.body as UserCreateDto;
+    if ((!email && !name) || !password) {
+      next(
+        new HttpError(
+          400,
+          'Bad Request',
+          'Email/name and password are required'
+        )
+      );
+      return;
+    }
+    const error = new HttpError(401, 'Unauthorized', 'Invalid data');
+
+    try {
+      const user = await this.repo.searchForLogin(
+        email ? 'email' : 'name',
+        email || name
+      );
+
+      if (!user) {
+        next(error);
+        return;
+      }
+      if (!(await Auth.compare(password, user.password))) {
+        next(error);
+        return;
+      }
+
+      const userToken = Auth.signJwt({ id: user.id!, role: user.role! });
+      res.status(200).json({ token: userToken });
     } catch (error) {
       next(error);
     }
@@ -35,6 +72,18 @@ export class UserController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     const data = req.body as UserCreateDto;
+    if (!data.password || typeof data.password !== 'string') {
+      next(
+        new HttpError(
+          400,
+          'Bad Request',
+          'Password is required and must be a string'
+        )
+      );
+      return;
+    }
+    data.password = await Auth.hash(data.password);
+
     const { error, value }: { error: Error | undefined; value: UserCreateDto } =
       userCreateDtoSchema.validate(data, {
         abortEarly: false,
@@ -57,6 +106,9 @@ export class UserController {
   async update(req: Request, res: Response, next: NextFunction) {
     const id = req.params.id;
     const data = req.body as UserUpdateDto;
+    if (data.password && typeof data.password === 'string') {
+      data.password = await Auth.hash(data.password);
+    }
 
     const { error } = userUpdateDtoSchema.validate(data, {
       abortEarly: false,
