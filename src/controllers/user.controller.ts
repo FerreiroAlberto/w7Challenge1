@@ -45,7 +45,13 @@ export class UserController {
       );
 
       if (!user) {
-        next(error);
+        next(
+          new HttpError(
+            404,
+            'Not Found',
+            `Invalid ${email ? 'email' : 'name'} or password`
+          )
+        );
         return;
       }
       if (!(await Auth.compare(password, user.password))) {
